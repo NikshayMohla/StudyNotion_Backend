@@ -1,6 +1,7 @@
 //signup && LOGIN && CHANGE PASSWORD && SEND OTP
 const User = require("../models/User")
 const Profile = require("../models/Profile");
+const mailSender = require("../utils/mailSender");
 const OTP = require("../models/Otp")
 const otpGenerator = require("otp-generator")
 const bcrypt = require("bcrypt")
@@ -162,7 +163,7 @@ exports.login = async (req, res) => {
             const payload = {
                 email: user.email,
                 id: user._id,
-                role: user.role
+                accountType: user.accountType
             }
             const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "2h" })
             user.token = token
